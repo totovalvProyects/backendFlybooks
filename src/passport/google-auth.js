@@ -15,8 +15,8 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use("sign-up-google",new GoogleStrategy(
   {
-    clientID:"524525531156-ph10v145pusqqqjbb25fgl2rv4qpsidp.apps.googleusercontent.com",
-    clientSecret: "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",
+    clientID:"524525531156-alilid82kitoujkcqbpbg89a35olqkj9.apps.googleusercontent.com",
+    clientSecret: "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",
     callbackURL: "https://flybooks.up.railway.app/google/signup",
   },
   // {
@@ -34,6 +34,7 @@ passport.use("sign-up-google",new GoogleStrategy(
           newUser._id = profile.id
           newUser.email = profile.emails[0].value
           newUser.username = profile.displayName
+          newUser.google = true
           newUser.password = ""
           newUser.confirm = true
          await newUser.save() //guardamos en la base de datos
@@ -46,8 +47,8 @@ passport.use("sign-up-google",new GoogleStrategy(
 
 passport.use("sign-in-google",new GoogleStrategy(
   {
-    clientID:"524525531156-ph10v145pusqqqjbb25fgl2rv4qpsidp.apps.googleusercontent.com",
-    clientSecret: "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",
+    clientID:"524525531156-alilid82kitoujkcqbpbg89a35olqkj9.apps.googleusercontent.com",
+    clientSecret: "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",
     callbackURL: "https://flybooks.up.railway.app/google/signin",
   },
   // {
@@ -67,3 +68,4 @@ passport.use("sign-in-google",new GoogleStrategy(
   }
 )
 );
+
