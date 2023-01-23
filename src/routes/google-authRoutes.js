@@ -17,47 +17,37 @@ loginGoogleRouter.get("/signup",passport.authenticate("sign-up-google", {scope: 
         expiresIn: 60 * 60 * 24 // equivalente a 24 horas
       })
       console.log("token 1:",token) 
-      res.cookie("test",token, {
-        sameSite : "none",
-        secure: true,
-        domain: "http://localhost:3000",
-        httpOnly: true
-        })  
-      res.redirect('http://localhost:3000/login')
+      return res.cookie("jwt",token).redirect("https://flybooks.vercel.app/login")
+      //  .redirect("https://develop--kaleidoscopic-kulfi-1f90f9.netlify.app/login")
     } else {
-      res.redirect('http://localhost:3000/login')
+      res.redirect("https://develop--kaleidoscopic-kulfi-1f90f9.netlify.app/login")
     }
   }
 );
 
+
+
 //ruta para ingresar
 
 
-loginGoogleRouter.get(
-  "/signin",
-  passport.authenticate("sign-in-google", {scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'], session: false }),
- async function (req, res) {
-    if (req.user) { 
-      const token = jwt.sign({id: req.user.id, username: req.user.username, email: req.user.email, role: req.user.role}, 'top_secret', {
-        expiresIn: 60 * 60 * 24 // equivalente a 24 horas
-      })
+ loginGoogleRouter.get(
+   "/signin",
+   passport.authenticate("sign-in-google", {scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'], session: false }),
+  async function (req, res) {
+     if (req.user) { 
+       const token = jwt.sign({id: req.user.id, username: req.user.username, email: req.user.email, role: req.user.role}, 'top_secret', {
+         expiresIn: 60 * 60 * 24 // equivalente a 24 horas
+       })
       console.log("token 2:",token) 
       // console.log("aaaaa",req.user)
-      // res.cookie("jwt",token,{
-      //   expires:new Date(Date.now()+5000),
-      //   httpOnly:true
-      // }).send(token)
-      res.cookie( "test", token, {
-        sameSite : "none",
-        secure: true,
-        domain: "http://localhost:3000",
-        httpOnly: true
-        })  
+        return res.cookie("jwt",token)
+       //  .redirect("https://develop--kaleidoscopic-kulfi-1f90f9.netlify.app/")
       // res.redirect('http://localhost:3000/')
-    } else {
-      res.redirect('http://localhost:3000/register')
-    } 
-  }
-);
+     } else {
+       res.redirect("https://develop--kaleidoscopic-kulfi-1f90f9.netlify.app/")
+     } 
+   }
+ );
+
 
 module.exports = loginGoogleRouter;
